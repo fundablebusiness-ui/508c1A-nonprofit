@@ -555,17 +555,13 @@
       <div class="video-eyebrow">Watch This First</div>
       <h2 class="video-headline">See How Faith Leaders Are Launching<br/>Compliant Nonprofits in 48 Hours</h2>
       <div class="video-wrap">
-        <iframe
-          src="https://www.youtube.com/embed/8oZAhMFv2L0?autoplay=1&mute=1&rel=0&modestbranding=1&enablejsapi=1" id="ytPlayer"
-          title="48-Hour Nonprofit Sprint — Faith Founders Hub"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
+        <!-- YouTube IFrame API target -->
+        <div id="ytPlayer"></div>
         <!-- Mute/unmute overlay button -->
         <button class="yt-mute-btn" id="ytMuteBtn" onclick="toggleYTMute()" title="Toggle sound" aria-label="Toggle sound">
           🔇 <span id="ytMuteLabel">Tap to Unmute</span>
         </button>
+      </div>
   </section>
 
   <!-- PROBLEM -->

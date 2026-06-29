@@ -857,21 +857,49 @@
 
   <script>
 
-    // YouTube mute toggle
-    let ytMuted = true;
+   // ── YouTube IFrame API — autoplay muted, toggle sound ──
+    var ytPlayer;
+    var ytMuted = true;
+
+    // Load YouTube IFrame API script
+    (function() {
+      var tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      var firstScript = document.getElementsByTagName('script')[0];
+      firstScript.parentNode.insertBefore(tag, firstScript);
+    })();
+
+    // Called automatically by YouTube API when ready
+    function onYouTubeIframeAPIReady() {
+      ytPlayer = new YT.Player('ytPlayer', {
+        videoId: '8oZAhMFv2L0',
+        playerVars: {
+          autoplay:       1,
+          mute:           1,
+          rel:            0,
+          modestbranding: 1,
+          controls:       1,
+          playsinline:    1
+        },
+        events: {
+          onReady: function(e) {
+            e.target.mute();
+            e.target.playVideo();
+          }
+        }
+      });
+    }
+
+    // Mute/unmute toggle button
     function toggleYTMute() {
-      const frame = document.getElementById('ytPlayer');
-      const btn   = document.getElementById('ytMuteBtn');
-      const label = document.getElementById('ytMuteLabel');
-      if (!frame) return;
-      if (ytMuted) {
-        frame.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-        btn.textContent = '';
+      if (!ytPlayer || typeof ytPlayer.isMuted !== 'function') return;
+      var btn = document.getElementById('ytMuteBtn');
+      if (ytPlayer.isMuted()) {
+        ytPlayer.unMute();
         btn.innerHTML = '🔊 <span id="ytMuteLabel">Mute</span>';
         ytMuted = false;
       } else {
-        frame.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
-        btn.textContent = '';
+        ytPlayer.mute();
         btn.innerHTML = '🔇 <span id="ytMuteLabel">Unmute</span>';
         ytMuted = true;
       }
